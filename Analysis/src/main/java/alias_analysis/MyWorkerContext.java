@@ -60,7 +60,8 @@ public class MyWorkerContext extends WorkerContext {
         String grammarPath = null;
         try
         {
-            BufferedReader pa = new BufferedReader(readHDFS("hdfs://localhost:8000/analysis/start"));
+             BufferedReader pa = new BufferedReader(readHDFS("hdfs://localhost:8000/analysis/start"));
+//            BufferedReader pa = new BufferedReader(readHDFS("hdfs://localhost:8000/client/analysis_conf"));
             pa.readLine();
             singletonPath = pa.readLine();
             grammarPath = pa.readLine();
