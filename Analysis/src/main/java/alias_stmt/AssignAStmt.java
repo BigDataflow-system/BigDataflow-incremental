@@ -49,6 +49,25 @@ public class AssignAStmt extends AStmt
 	}
 
 	@Override
+	public int getSize(){
+    return 2;
+  }
+
+	@Override
+	public String to_string(){
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(src).append("\t");
+		strBuilder.append(dst).append("\t");
+		return strBuilder.toString();
+	}
+
+	@Override
+  public void readString(String[] token, int idx) {
+		src = Integer.parseInt(token[idx]);
+		dst = Integer.parseInt(token[idx + 1]);
+  }
+
+	@Override
 	public void write(DataOutput dataOutput) throws IOException {
 		dataOutput.writeInt(src);
 		dataOutput.writeInt(dst);

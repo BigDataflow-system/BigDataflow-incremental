@@ -81,6 +81,33 @@ public class CallAStmt extends AStmt
 	}
 
 	@Override
+	public int getSize(){
+    return 2+length;
+  }
+
+	@Override
+	public String to_string(){
+		StringBuilder strBuilder = new StringBuilder();
+		strBuilder.append(length).append("\t");
+		strBuilder.append(ret).append("\t");
+		for (int i = 0; i < length; i++) {
+			strBuilder.append(args[i]).append("\t");
+		}
+		return strBuilder.toString();
+	}
+
+	@Override
+  public void readString(String[] token, int idx) {
+		length = Integer.parseInt(token[idx]);
+		ret = Integer.parseInt(token[idx + 1]);
+		args = new int[length];
+		idx = idx+2;
+		for (int i = 0; i < length; i++) {
+			args[i] = Integer.parseInt(token[idx + i]);
+		}
+  }
+
+	@Override
 	public void write(DataOutput dataOutput) throws IOException {
 		dataOutput.writeInt(length);
 		dataOutput.writeInt(ret);

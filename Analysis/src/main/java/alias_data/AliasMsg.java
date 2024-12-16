@@ -1,14 +1,14 @@
 package alias_data;
 
+import alias_stmt.AStmt;
+import incre_data.Msg;
+import incre_data.StmtList;
+import incre_data.VertexValue;
+import org.apache.hadoop.io.IntWritable;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-import org.apache.hadoop.io.IntWritable;
-
-import data.*;
-import alias_data.AliasStmts;
-import alias_data.Pegraph;
-import alias_stmt.AStmt;
 
 public class AliasMsg extends Msg {
   public AliasStmts stmtlist;

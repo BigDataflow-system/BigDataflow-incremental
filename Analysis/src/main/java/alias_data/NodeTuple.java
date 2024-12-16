@@ -1,13 +1,12 @@
 package alias_data;
 
+import alias_stmt.AStmt;
+import incre_data.StmtList;
 import org.apache.hadoop.io.Writable;
+
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
-
-import data.StmtList;
-import alias_data.AliasStmts;
-import alias_stmt.AStmt;
 
 public class NodeTuple implements Writable{
   public AliasStmts stmtlist;
@@ -37,6 +36,19 @@ public class NodeTuple implements Writable{
   public AliasStmts getStmtList() {
     return this.stmtlist;
   }
+  public String nodetupleToString() {
+      StringBuilder strBuilder = new StringBuilder();
+      strBuilder.append(stmtlist.to_string()).append(",");
+      if(pegraph != null){
+          strBuilder.append("1\t");
+          strBuilder.append(pegraph.graphtoString());
+      }
+      else{
+          strBuilder.append("0\t");
+      }
+      return strBuilder.toString();
+  }
+
 
   @Override
   public void write(DataOutput dataOutput) throws IOException {
@@ -82,4 +94,5 @@ public class NodeTuple implements Writable{
       nodeTuple.stmtlist.setDeep(this.stmtlist);
       return nodeTuple;
   }
+
 }

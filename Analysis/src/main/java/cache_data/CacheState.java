@@ -6,7 +6,9 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.HashMap;
 import java.util.Map;
-import data.Fact;
+import incre_data.Fact;
+
+import java.util.regex.Pattern;
 
 public class CacheState extends Fact {
   public Map[] IRs_Icache;
@@ -17,6 +19,29 @@ public class CacheState extends Fact {
       IRs_Icache[i] = new HashMap<Integer, Integer>();
     }
   }
+
+  public CacheState(String fact_text){
+    IRs_Icache = new Map[128];
+    Pattern SEPARATOR = Pattern.compile("\t");
+    String[] tokens = SEPARATOR.split(fact_text);
+
+    int k = 0;
+    for (int i = 0; i < 128; i++) {
+      IRs_Icache[i] = new HashMap<Integer, Integer>();
+      int size = Integer.parseInt(tokens[k]);
+      /// CommonWrite.method2("l-size:\t"+ tokens[k] + "\t");
+      if (size > 0) {
+        while(size > 0){
+          IRs_Icache[i].put(Integer.parseInt(tokens[k+1]), Integer.parseInt(tokens[k+2]));
+          /// CommonWrite.method2(tokens[k+1] + "-" + tokens[k+2]+"\t");
+          --size;
+          k = k+2;
+        }
+      }
+      k = k+1;
+    }
+  }
+
 
   public Map[] getIRsCache(){
     return IRs_Icache;
@@ -29,7 +54,7 @@ public class CacheState extends Fact {
 
     HashMap<Integer, Integer> IRs_Set = (HashMap<Integer, Integer>) this.IRs_Icache[setNum];
 
-    if (IRs_Set.containsKey(ir)) {//case1:  in the cache set, so is hit
+    if (IRs_Set.containsKey(ir)) { //case1:  in the cache set, so is hit
         flag = 1;
         int CacheLoc = IRs_Set.get(ir);
         int age = CacheLoc % 128;
@@ -180,5 +205,22 @@ public class CacheState extends Fact {
 
   public String toString() {
     return String.valueOf(this.size());
+  }
+
+  public String statetoString() {
+
+    StringBuilder stateStr = new StringBuilder();
+
+    if(IRs_Icache != null){
+      stateStr.append("1\t");
+      for (int i = 0; i < 128; i++) {
+        HashMap<Integer, Integer> hashMap = (HashMap<Integer, Integer>) IRs_Icache[i];
+        stateStr.append(hashMap.size()).append("\t");
+        for (Map.Entry<Integer, Integer> tmp : hashMap.entrySet()) {
+          stateStr.append(tmp.getKey()).append("\t").append(tmp.getValue()).append("\t");
+        }
+      }
+    }
+    return stateStr.toString();
   }
 }

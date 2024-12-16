@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import data.Stmt;
-import data.StmtList;
+import incre_data.Stmt;
+import incre_data.StmtList;
 
 public class CacheIRs extends StmtList{
 
@@ -16,15 +16,26 @@ public class CacheIRs extends StmtList{
     super();
   }
 
-  public CacheIRs(Scanner sc) {
+  public CacheIRs(Scanner sc, boolean flag) {
     List<Stmt> newStmts = new ArrayList<>();
     
-    while (sc.hasNext()) {
-      String str = sc.next();
-      IRStmt irstmt =  new IRStmt();
-      irstmt.setStmt(Integer.decode(str));
-      newStmts.add(irstmt);
+    if(!flag){
+      while (sc.hasNext()) {
+        String str = sc.next();
+        IRStmt irstmt =  new IRStmt();
+        irstmt.setStmt(Integer.decode(str));
+        newStmts.add(irstmt);
+      }
     }
+    else{
+      while (sc.hasNext()) {
+        String str = sc.next();
+        IRStmt irstmt =  new IRStmt();
+        irstmt.setStmt(Integer.parseInt(str));
+        newStmts.add(irstmt);
+      }
+    }
+    
     setStmts(newStmts);
   }
 
@@ -36,6 +47,7 @@ public class CacheIRs extends StmtList{
     System.out.print("\n");
   }
 
+  @Override
   public void write(DataOutput out) throws IOException{
      out.writeInt(size);
      for (int k = 0; k < size; k++){
@@ -44,6 +56,7 @@ public class CacheIRs extends StmtList{
      }
   }
 
+  @Override
   public void readFields(DataInput in) throws IOException{
     clear();
     size = in.readInt();

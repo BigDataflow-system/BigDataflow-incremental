@@ -4,15 +4,13 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-import cache_data.CacheState;
-import data.Msg;
+import incre_data.Msg;
 
 public class CacheMsg extends Msg{
 
   public CacheMsg(){
     fact = null;
   }
-
 
   @Override
   public void write(DataOutput dataOutput) throws IOException {
